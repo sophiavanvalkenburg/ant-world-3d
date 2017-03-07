@@ -35,29 +35,31 @@ function createAntenna(color){
     return antenna;
 }
 
-function createAnt(){
-    const color = 0xcc0000
-    const ant = new THREE.Group();
-    const headGroup = new THREE.Group().add(createSphere(14, color)); 
-    headGroup.position.set(35, 5, 0);
-    headGroup.scale.set(1.15, 0.6, 0.9);
-    headGroup.rotation.z = -30 * Math.PI/180;
+function createAntHead(color){
+    const headGroup = new THREE.Group();
+    const headJoint = createSphere(2, 0xffffff);
+    const head = createSphere(14, color); 
+    head.position.set(14, 5, 0)
+    head.scale.set(1.15, 0.6, 0.9);
     const antennaLeft = createAntenna(color); 
-    antennaLeft.position.set(-10, 8, -5);
+    antennaLeft.position.set(5, 10, -5);
     antennaLeft.rotation.set(-25 * Math.PI/180, 0, 70 * Math.PI/180);
     const antennaRight = createAntenna(color); 
-    antennaRight.position.set(-10, 8, 5);
+    antennaRight.position.set(5, 10, 5);
     antennaRight.rotation.set(25 * Math.PI/180, 0, 70 * Math.PI/180);
+    headGroup.add(headJoint);
+    headGroup.add(head);
     headGroup.add(antennaLeft);
     headGroup.add(antennaRight);
+    return headGroup
+}
+
+function createAntBody(color){
+    const bodyGroup = new THREE.Group();
     const body = createSphere(20, color);
     body.position.set(0, 0, 0);
     body.scale.set(1.25, 0.5, 0.5);
     body.rotation.z = 20 * Math.PI/180;
-    const back = createSphere(19, color);
-    back.position.set(-40, -5, 0);
-    back.scale.set(1.25, 0.9, 1);
-    back.rotation.z = 10 * Math.PI/180;
     const legLeftFront = createLeg(color);
     legLeftFront.position.set(10, 0, -9);
     legLeftFront.rotation.set(0, 45 * Math.PI/180, 50 * Math.PI/180);
@@ -75,16 +77,41 @@ function createAnt(){
     legRightMid.rotation.set(0, -100 * Math.PI/180, 35 * Math.PI/180);
     const legRightBack = createLeg(color);
     legRightBack.position.set(-15, 0, 8);
-    legRightBack.rotation.set(0, -135 * Math.PI/180, 30 * Math.PI/180);
+    legRightBack.rotation.set(0, -135 * Math.PI/180, 30 * Math.PI/180)
+    bodyGroup.add(body);
+    bodyGroup.add(legLeftFront);
+    bodyGroup.add(legLeftMid);
+    bodyGroup.add(legLeftBack);
+    bodyGroup.add(legRightFront);
+    bodyGroup.add(legRightMid);
+    bodyGroup.add(legRightBack);
+    return bodyGroup;
+}
+
+function createAntBack(color){
+    const backGroup = new THREE.Group();
+    const backJoint = createSphere(4, 0xffffff);
+    const back = createSphere(19, color);
+    back.position.set(-23, 7, 0);
+    back.scale.set(1.25, 0.9, 1);
+    backGroup.add(back);
+    backGroup.add(backJoint);
+    return backGroup;
+}
+
+function createAnt(){
+    const color = 0xcc0000
+    const ant = new THREE.Group();
+    const headGroup = createAntHead(color);
+    headGroup.position.set(23, 10, 0);
+    headGroup.rotation.z = -30 * Math.PI/180;
+    const bodyGroup = createAntBody(color);
+    const backGroup = createAntBack(color);
+    backGroup.position.set(-25, -5, 0);
+    backGroup.rotation.z = 10 * Math.PI/180;
+    ant.add(bodyGroup);
     ant.add(headGroup);
-    ant.add(back);
-    ant.add(body);
-    ant.add(legLeftFront);
-    ant.add(legLeftMid);
-    ant.add(legLeftBack);
-    ant.add(legRightFront);
-    ant.add(legRightMid);
-    ant.add(legRightBack);
+    ant.add(backGroup);
     return ant;
 }
 
