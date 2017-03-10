@@ -1,7 +1,8 @@
-let camera, scene, renderer, ant;
+let camera, scene, renderer;
 
 const KEYCODES = {
-  LEFT_ARROW: 37
+  LEFT_ARROW: 37,
+  RIGHT_ARROW: 39,
 }
 
 init();
@@ -45,22 +46,19 @@ function init(){
 
 function setupUserEventListeners(){
   window.addEventListener("keydown", function(e){
-    if (e.keyCode == KEYCODES.LEFT_ARROW){
-      move();
-    }
+    move(e.keyCode);
   }, false);
 }
 
 function setupScene(){
     const scene = new THREE.Scene();
-    ant = createAnt();
+    const ant = createAnt();
     const lights = createLight();
     // add to scene
     scene.add(ant);
     for (let i=0; i<lights.length; i++){
         scene.add(lights[i]);
     }
-
     return scene;
 }
 
@@ -76,7 +74,23 @@ function renderLoop(){
   requestAnimationFrame(renderLoop);
 }
 
-function move(){
-  ant.rotation.y += 0.05;
-}
+function move(keyCode){
+  //const ant = scene.getObjectByName(NAMES.ANT);
+  //ant.rotation.y += 0.05;
+  lower = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.LOWER);
+  middle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.MIDDLE);
+  upper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.UPPER);
+  switch (keyCode){
+    case KEYCODES.LEFT_ARROW:
+      lower.rotation.z += 0.05;
+      middle.rotation.z += 0.05;
+      upper.rotation.z += 0.05;
+      break;
+    case KEYCODES.RIGHT_ARROW:
+      lower.rotation.z -= 0.05;
+      middle.rotation.z -= 0.05;
+      upper.rotation.z -= 0.05;
+      break;
+  }
+ }
 

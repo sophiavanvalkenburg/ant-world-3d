@@ -1,3 +1,4 @@
+
 function createLegSegment(startRadius, endRadius, height, antData){
     const legSegment = new THREE.Group();
     const joint = createSphere(startRadius, antData.jointColor);
@@ -9,7 +10,7 @@ function createLegSegment(startRadius, endRadius, height, antData){
     return legSegment;
 }
 
-function createLeg(antData, legData){
+function createLeg(antData, legData, name){
     const leg = new THREE.Group();
     const segment1 = createLegSegment(3, 2, 30, antData);
     const segment2group = new THREE.Group();
@@ -36,6 +37,11 @@ function createLeg(antData, legData){
     segment2group.add(segment3); 
     leg.add(segment1);
     leg.add(segment2group);
+    if (name !== undefined){
+      leg.name = name.UPPER;
+      segment2group.name = name.MIDDLE;
+      segment3.name = name.LOWER;
+    }
     return leg;
 }
 
@@ -82,7 +88,7 @@ function createAntBody(antData){
     body.position.set(0, 0, 0);
     body.scale.set(1.25, 0.5, 0.5);
     body.rotation.z = aToR(20);
-    const legLeftFront = createLeg(antData, antData.legLeftFront);
+    const legLeftFront = createLeg(antData, antData.legLeftFront, NAMES.ANT_LEG_LEFT_FRONT);
     legLeftFront.position.set(10, 0, -9);
     const legLeftMid = createLeg(antData, antData.legLeftMid);
     legLeftMid.position.set(-5, 0, -11);
@@ -115,8 +121,8 @@ function createAntBack(antData){
     return backGroup;
 }
 
-function createAnt(){
-    const antData = {
+function getInitialAntData(){
+  return {
       color: 0xcc0000,
       jointColor: 0xffffff,
       position: { x:0, y:0, z:0},
@@ -163,7 +169,12 @@ function createAnt(){
         lower: { x:0, y:0, z:aToR(30)},
       }
     };
+}
+
+function createAnt(){
+    const antData = getInitialAntData();
     const ant = new THREE.Group();
+    ant.name = NAMES.ANT;
     ant.position.set(
         antData.position.x,
         antData.position.y,
