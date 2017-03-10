@@ -1,7 +1,11 @@
-let camera, scene, renderer;
+let camera, scene, renderer, ant;
+
+const KEYCODES = {
+  LEFT_ARROW: 37
+}
 
 init();
-render();
+renderLoop();
 
 function init(){
     // set the scene size
@@ -30,16 +34,26 @@ function init(){
     container.appendChild(renderer.domElement);
     //add orbit control
     const orbit = new THREE.OrbitControls(camera, container);
-    orbit.addEventListener("change", render);
     orbit.enableZoom = false;
-    scene = setupScene();
+    orbit.enableKeys = false;
+    //setup key presses
+    setupUserEventListeners();
     // add the camera to the scene
+    scene = setupScene();
     scene.add(camera);
+}
+
+function setupUserEventListeners(){
+  window.addEventListener("keydown", function(e){
+    if (e.keyCode == KEYCODES.LEFT_ARROW){
+      move();
+    }
+  }, false);
 }
 
 function setupScene(){
     const scene = new THREE.Scene();
-    const ant = createAnt();
+    ant = createAnt();
     const lights = createLight();
     // add to scene
     scene.add(ant);
@@ -57,7 +71,12 @@ function createLight(){
     return [lightA, light]
 }
 
-function render(){
-    renderer.render(scene, camera);
-    //requestAnimationFrame(render);
+function renderLoop(){
+  renderer.render(scene, camera);
+  requestAnimationFrame(renderLoop);
 }
+
+function move(){
+  ant.rotation.y += 0.05;
+}
+
