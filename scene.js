@@ -1,4 +1,5 @@
 let camera, scene, renderer;
+let legForward = true;
 
 const KEYCODES = {
   LEFT_ARROW: 37,
@@ -46,7 +47,7 @@ function init(){
 
 function setupUserEventListeners(){
   window.addEventListener("keydown", function(e){
-    move(e.keyCode);
+    moveOnKeyDown(e.keyCode);
   }, false);
 }
 
@@ -79,27 +80,88 @@ function createLight(){
 }
 
 function renderLoop(){
+  move();
   renderer.render(scene, camera);
   requestAnimationFrame(renderLoop);
 }
 
-function move(keyCode){
+function move(){
+  lower = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.LOWER);
+  middle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.MIDDLE);
+  upper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.UPPER);
+  let middleZDone = false;
+  let upperYDone = false
+  let upperZDone = false;
+  if (!legForward){
+    if (middle.rotation.z > -2.46){
+      middle.rotation.z -= 0.11;
+    }else{
+      middleZDone = true;
+    }
+    if (upper.rotation.z > 0.6 && upper.rotation.y < 1.25){
+      upper.rotation.y += 0.08;
+    }else{
+      upperYDone = true;
+    }
+    if (upper.rotation.z < 0.91){
+      upper.rotation.z += 0.06;
+    }else{
+      upperZDone = true;
+    }
+  }else{
+    if (middle.rotation.z < -1.09){
+      middle.rotation.z += 0.05;
+    }else{
+      middleZDone = true;
+    }
+    if (upper.rotation.y > 0.23){
+      upper.rotation.y -= 0.07;
+    }else{
+      upperYDone = true;
+    }
+    if (upper.rotation.z > 0.15){
+      upper.rotation.z -= 0.025;
+    }else{
+      upperZDone = true;
+    }
+  }
+  if (middleZDone && upperYDone && upperZDone){
+    legForward = !legForward;
+  }
+}
+
+function moveOnKeyDown(keyCode){
   //const ant = scene.getObjectByName(NAMES.ANT);
   //ant.rotation.y += 0.05;
   lower = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.LOWER);
   middle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.MIDDLE);
   upper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.UPPER);
   switch (keyCode){
-    case KEYCODES.LEFT_ARROW:
-      lower.rotation.z += 0.05;
-      middle.rotation.z += 0.05;
-      upper.rotation.z += 0.05;
-      break;
     case KEYCODES.RIGHT_ARROW:
-      lower.rotation.z -= 0.05;
-      middle.rotation.z -= 0.05;
-      upper.rotation.z -= 0.05;
+      if (middle.rotation.z > -2.46){
+        middle.rotation.z -= 0.11;
+      }
+      if (upper.rotation.z > 0.6 && upper.rotation.y < 1.25){
+        upper.rotation.y += 0.08;
+      }
+      if (upper.rotation.z < 0.91){
+        upper.rotation.z += 0.06;
+      }
+      break;
+    case KEYCODES.LEFT_ARROW:
+      if (middle.rotation.z < -1.09){
+        middle.rotation.z += 0.05;
+      }
+      if (upper.rotation.y > 0.23){
+        upper.rotation.y -= 0.07;
+      }
+      if (upper.rotation.z > 0.15){
+        upper.rotation.z -= 0.025;
+      }
       break;
   }
+  console.log("UPPER Y: " + upper.rotation.y)
+  console.log("UPPER Z: " + upper.rotation.z)
+  console.log("MIDDLE Z: " + middle.rotation.z)
  }
 
