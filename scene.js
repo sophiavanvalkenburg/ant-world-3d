@@ -50,11 +50,20 @@ function setupUserEventListeners(){
   }, false);
 }
 
+function createGround(){
+  const ground = new THREE.BoxGeometry(300, 1, 300);
+  const material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+  const mesh = new THREE.Mesh(ground, material);
+  return mesh;
+}
+
 function setupScene(){
     const scene = new THREE.Scene();
     const ant = createAnt();
+    const ground = createGround();
     const lights = createLight();
     // add to scene
+    scene.add(ground);
     scene.add(ant);
     for (let i=0; i<lights.length; i++){
         scene.add(lights[i]);

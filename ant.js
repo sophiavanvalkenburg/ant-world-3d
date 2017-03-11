@@ -125,7 +125,7 @@ function getInitialAntData(){
   return {
       color: 0xcc0000,
       jointColor: 0xffffff,
-      position: { x:0, y:0, z:0},
+      position: { x:0, y:35, z:0},
       rotation: { x:0, y:aToR(180), z:0},
       scale: 1, // uniform scale,
       head: { x:0, y:0, z:aToR(-30) },
@@ -144,7 +144,7 @@ function getInitialAntData(){
         lower: { x:0, y:0, z:aToR(30)},
       },
       legLeftMid: {
-        upper: { x:0, y:aToR(100), z:aToR(35)},
+        upper: { x:0, y:aToR(100), z:aToR(31)},
         middle: { x:0, y:0, z:aToR(-100)},
         lower: { x:0, y:0, z:aToR(30)},
       },
@@ -159,7 +159,7 @@ function getInitialAntData(){
         lower: { x:0, y:0, z:aToR(30)},
       },
       legRightMid: {
-        upper: { x:0, y:aToR(-100), z:aToR(35)},
+        upper: { x:0, y:aToR(-100), z:aToR(31)},
         middle: { x:0, y:0, z:aToR(-100)},
         lower: { x:0, y:0, z:aToR(30)},
       },
