@@ -92,13 +92,13 @@ function createAntBody(antData){
     legLeftFront.position.set(10, 0, -9);
     const legLeftMid = createLeg(antData, antData.legLeftMid, NAMES.ANT_LEG_LEFT_MIDDLE);
     legLeftMid.position.set(-5, 0, -11);
-    const legLeftBack = createLeg(antData, antData.legLeftBack);
+    const legLeftBack = createLeg(antData, antData.legLeftBack, NAMES.ANT_LEG_LEFT_BACK);
     legLeftBack.position.set(-15, 0, -8);
     const legRightFront = createLeg(antData, antData.legRightFront, NAMES.ANT_LEG_RIGHT_FRONT);
     legRightFront.position.set(10, 0, 9);
     const legRightMid = createLeg(antData, antData.legRightMid, NAMES.ANT_LEG_RIGHT_MIDDLE);
     legRightMid.position.set(-5, 0, 11);
-    const legRightBack = createLeg(antData, antData.legRightBack);
+    const legRightBack = createLeg(antData, antData.legRightBack, NAMES.ANT_LEG_RIGHT_BACK);
     legRightBack.position.set(-15, 0, 8);
     bodyGroup.add(body);
     bodyGroup.add(legLeftFront);

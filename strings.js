@@ -13,6 +13,11 @@ const NAMES = {
     MIDDLE: "ant_leg_left_middle_middle",
     LOWER: "ant_leg_left_middle_lower",
   },
+  ANT_LEG_LEFT_BACK: {
+    UPPER: "ant_leg_left_back_upper",
+    MIDDLE: "ant_leg_left_back_middle",
+    LOWER: "ant_leg_left_back_lower",
+  },
   ANT_LEG_RIGHT_FRONT: {
     UPPER: "ant_leg_right_front_upper",
     MIDDLE: "ant_leg_right_front_middle",
@@ -22,6 +27,11 @@ const NAMES = {
     UPPER: "ant_leg_right_middle_upper",
     MIDDLE: "ant_leg_right_middle_middle",
     LOWER: "ant_leg_right_middle_lower",
+  },
+  ANT_LEG_RIGHT_BACK: {
+    UPPER: "ant_leg_right_back_upper",
+    MIDDLE: "ant_leg_right_back_middle",
+    LOWER: "ant_leg_right_back_lower",
   },
 }
 

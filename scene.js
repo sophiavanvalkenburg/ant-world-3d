@@ -90,10 +90,14 @@ function initTweens(){
   const leftFrontUpper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.UPPER);
   const leftMidMiddle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_MIDDLE.MIDDLE);
   const leftMidUpper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_MIDDLE.UPPER);
+  const leftBackMiddle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_BACK.MIDDLE);
+  const leftBackUpper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_BACK.UPPER);
   const rightFrontMiddle = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_FRONT.MIDDLE);
   const rightFrontUpper = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_FRONT.UPPER);
   const rightMidMiddle = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_MIDDLE.MIDDLE);
   const rightMidUpper = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_MIDDLE.UPPER);
+  const rightBackMiddle = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_BACK.MIDDLE);
+  const rightBackUpper = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_BACK.UPPER);
   const legFrontRotations = { 
     leftFrontMiddleZ: leftFrontMiddle.rotation.z,
     leftFrontUpperZ: leftFrontUpper.rotation.z,
@@ -109,6 +113,15 @@ function initTweens(){
     rightMidMiddleZ: rightMidMiddle.rotation.z,
     rightMidUpperZ: rightMidUpper.rotation.z,
     rightMidUpperY: rightMidUpper.rotation.y,
+  };
+  const legBackRotations = {
+    leftBackMiddleZ: leftBackMiddle.rotation.z,
+    leftBackUpperZ: leftBackUpper.rotation.z,
+    leftBackUpperY: leftBackUpper.rotation.y,
+    rightBackMiddleZ: rightBackMiddle.rotation.z,
+    rightBackUpperZ: rightBackUpper.rotation.z,
+    rightBackUpperY: rightBackUpper.rotation.y,
+
   };
   const legFrontRotationsToBack = { 
     leftFrontMiddleZ: -2.46,
@@ -126,6 +139,15 @@ function initTweens(){
     rightMidUpperZ: 0.45,
     rightMidUpperY: -0.96,
   };
+  const legBackRotationsToBack = {
+    leftBackMiddleZ: -1.15,
+    leftBackUpperZ: 0.2,
+    leftBackUpperY: 2.5,
+    rightBackMiddleZ: -1.75,
+    rightBackUpperZ: 0.55,
+    rightBackUpperY: -1.8,
+
+  };
   const legFrontRotationsToFront = {
     leftFrontMiddleZ: -1.09,
     leftFrontUpperZ: 0.15,
@@ -142,11 +164,21 @@ function initTweens(){
     rightMidUpperZ: 0.45,
     rightMidUpperY: -1.92,
   };
+  const legBackRotationsToFront = {
+    leftBackMiddleZ: -1.75,
+    leftBackUpperZ: 0.55,
+    leftBackUpperY: 1.8,
+    rightBackMiddleZ: -1.15,
+    rightBackUpperZ: 0.2,
+    rightBackUpperY: -2.5,
+  };
   const legSpeed = 500;
   const legFrontRotationsToBackTween = new TWEEN.Tween(legFrontRotations).to(legFrontRotationsToBack, legSpeed);
   const legFrontRotationsToFrontTween = new TWEEN.Tween(legFrontRotations).to(legFrontRotationsToFront, legSpeed);
   const legMidRotationsToBackTween = new TWEEN.Tween(legMidRotations).to(legMidRotationsToBack, legSpeed);
   const legMidRotationsToFrontTween = new TWEEN.Tween(legMidRotations).to(legMidRotationsToFront, legSpeed);
+  const legBackRotationsToBackTween = new TWEEN.Tween(legBackRotations).to(legBackRotationsToBack, legSpeed);
+  const legBackRotationsToFrontTween = new TWEEN.Tween(legBackRotations).to(legBackRotationsToFront, legSpeed);
  
   const legFrontRotationsFunc = () => {
     leftFrontMiddle.rotation.z = legFrontRotations.leftFrontMiddleZ;
@@ -163,7 +195,14 @@ function initTweens(){
     rightMidMiddle.rotation.z = legMidRotations.rightMidMiddleZ;
     rightMidUpper.rotation.z = legMidRotations.rightMidUpperZ;
     rightMidUpper.rotation.y = legMidRotations.rightMidUpperY;
-
+  }
+  const legBackRotationsFunc = () => {
+    leftBackMiddle.rotation.z = legBackRotations.leftBackMiddleZ;
+    leftBackUpper.rotation.z = legBackRotations.leftBackUpperZ;
+    leftBackUpper.rotation.y = legBackRotations.leftBackUpperY;
+    rightBackMiddle.rotation.z = legBackRotations.rightBackMiddleZ;
+    rightBackUpper.rotation.z = legBackRotations.rightBackUpperZ;
+    rightBackUpper.rotation.y = legBackRotations.rightBackUpperY;
   }
   legFrontRotationsToBackTween.onUpdate(legFrontRotationsFunc);
   legFrontRotationsToFrontTween.onUpdate(legFrontRotationsFunc);
@@ -175,6 +214,11 @@ function initTweens(){
   legMidRotationsToFrontTween.chain(legMidRotationsToBackTween);
   legMidRotationsToBackTween.chain(legMidRotationsToFrontTween);
   legMidRotationsToFrontTween.start(50);
+  legBackRotationsToBackTween.onUpdate(legBackRotationsFunc);
+  legBackRotationsToFrontTween.onUpdate(legBackRotationsFunc);
+  legBackRotationsToFrontTween.chain(legBackRotationsToBackTween);
+  legBackRotationsToBackTween.chain(legBackRotationsToFrontTween);
+  legBackRotationsToBackTween.start(100);
 }
 
 function moveOnKeyDown(keyCode){
