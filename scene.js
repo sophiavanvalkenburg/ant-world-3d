@@ -1,5 +1,4 @@
 let camera, scene, renderer;
-let legForward = true;
 
 const KEYCODES = {
   LEFT_ARROW: 37,
@@ -7,6 +6,7 @@ const KEYCODES = {
 }
 
 init();
+initTweens();
 renderLoop();
 
 function init(){
@@ -80,84 +80,114 @@ function createLight(){
 }
 
 function renderLoop(){
-  move();
+  TWEEN.update();
   renderer.render(scene, camera);
   requestAnimationFrame(renderLoop);
 }
 
-function move(){
-  lower = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.LOWER);
-  middle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.MIDDLE);
-  upper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.UPPER);
-  let middleZDone = false;
-  let upperYDone = false
-  let upperZDone = false;
-  if (!legForward){
-    if (middle.rotation.z > -2.46){
-      middle.rotation.z -= 0.11;
-    }else{
-      middleZDone = true;
-    }
-    if (upper.rotation.z > 0.6 && upper.rotation.y < 1.25){
-      upper.rotation.y += 0.08;
-    }else{
-      upperYDone = true;
-    }
-    if (upper.rotation.z < 0.91){
-      upper.rotation.z += 0.06;
-    }else{
-      upperZDone = true;
-    }
-  }else{
-    if (middle.rotation.z < -1.09){
-      middle.rotation.z += 0.05;
-    }else{
-      middleZDone = true;
-    }
-    if (upper.rotation.y > 0.23){
-      upper.rotation.y -= 0.07;
-    }else{
-      upperYDone = true;
-    }
-    if (upper.rotation.z > 0.15){
-      upper.rotation.z -= 0.025;
-    }else{
-      upperZDone = true;
-    }
+function initTweens(){
+  const leftFrontMiddle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.MIDDLE);
+  const leftFrontUpper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.UPPER);
+  const leftMidMiddle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_MIDDLE.MIDDLE);
+  const leftMidUpper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_MIDDLE.UPPER);
+  const rightFrontMiddle = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_FRONT.MIDDLE);
+  const rightFrontUpper = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_FRONT.UPPER);
+  const rightMidMiddle = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_MIDDLE.MIDDLE);
+  const rightMidUpper = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_MIDDLE.UPPER);
+  const legFrontRotations = { 
+    leftFrontMiddleZ: leftFrontMiddle.rotation.z,
+    leftFrontUpperZ: leftFrontUpper.rotation.z,
+    leftFrontUpperY: leftFrontUpper.rotation.y,
+    rightFrontMiddleZ: rightFrontMiddle.rotation.z,
+    rightFrontUpperZ: rightFrontMiddle.rotation.z,
+    rightFrontUpperY: rightFrontMiddle.rotation.y,
+  };
+  const legMidRotations = {
+    leftMidMiddleZ: leftMidMiddle.rotation.z,
+    leftMidUpperZ: leftMidUpper.rotation.z,
+    leftMidUpperY: leftMidUpper.rotation.y,
+    rightMidMiddleZ: rightMidMiddle.rotation.z,
+    rightMidUpperZ: rightMidUpper.rotation.z,
+    rightMidUpperY: rightMidUpper.rotation.y,
+  };
+  const legFrontRotationsToBack = { 
+    leftFrontMiddleZ: -2.46,
+    leftFrontUpperZ: 0.91,
+    leftFrontUpperY: 1.25,
+    rightFrontMiddleZ: -1.09,
+    rightFrontUpperZ: 0.15,
+    rightFrontUpperY: -0.23,
+  };
+  const legMidRotationsToBack = {
+    leftMidMiddleZ: -1.6,
+    leftMidUpperZ: 0.45,
+    leftMidUpperY: 1.92,
+    rightMidMiddleZ: -1.6,
+    rightMidUpperZ: 0.45,
+    rightMidUpperY: -0.96,
+  };
+  const legFrontRotationsToFront = {
+    leftFrontMiddleZ: -1.09,
+    leftFrontUpperZ: 0.15,
+    leftFrontUpperY: 0.23,
+    rightFrontMiddleZ: -2.46,
+    rightFrontUpperZ: 0.91,
+    rightFrontUpperY: -1.25,
+  };
+  const legMidRotationsToFront = {
+    leftMidMiddleZ: -1.6,
+    leftMidUpperZ: 0.45,
+    leftMidUpperY: 0.96,
+    rightMidMiddleZ: -1.6,
+    rightMidUpperZ: 0.45,
+    rightMidUpperY: -1.92,
+  };
+  const legSpeed = 500;
+  const legFrontRotationsToBackTween = new TWEEN.Tween(legFrontRotations).to(legFrontRotationsToBack, legSpeed);
+  const legFrontRotationsToFrontTween = new TWEEN.Tween(legFrontRotations).to(legFrontRotationsToFront, legSpeed);
+  const legMidRotationsToBackTween = new TWEEN.Tween(legMidRotations).to(legMidRotationsToBack, legSpeed);
+  const legMidRotationsToFrontTween = new TWEEN.Tween(legMidRotations).to(legMidRotationsToFront, legSpeed);
+ 
+  const legFrontRotationsFunc = () => {
+    leftFrontMiddle.rotation.z = legFrontRotations.leftFrontMiddleZ;
+    leftFrontUpper.rotation.z = legFrontRotations.leftFrontUpperZ;
+    leftFrontUpper.rotation.y = legFrontRotations.leftFrontUpperY;
+    rightFrontMiddle.rotation.z = legFrontRotations.rightFrontMiddleZ;
+    rightFrontUpper.rotation.z = legFrontRotations.rightFrontUpperZ;
+    rightFrontUpper.rotation.y = legFrontRotations.rightFrontUpperY;
+  };
+  const legMidRotationsFunc = () => {
+    leftMidMiddle.rotation.z = legMidRotations.leftMidMiddleZ;
+    leftMidUpper.rotation.z = legMidRotations.leftMidUpperZ;
+    leftMidUpper.rotation.y = legMidRotations.leftMidUpperY;
+    rightMidMiddle.rotation.z = legMidRotations.rightMidMiddleZ;
+    rightMidUpper.rotation.z = legMidRotations.rightMidUpperZ;
+    rightMidUpper.rotation.y = legMidRotations.rightMidUpperY;
+
   }
-  if (middleZDone && upperYDone && upperZDone){
-    legForward = !legForward;
-  }
+  legFrontRotationsToBackTween.onUpdate(legFrontRotationsFunc);
+  legFrontRotationsToFrontTween.onUpdate(legFrontRotationsFunc);
+  legFrontRotationsToBackTween.chain(legFrontRotationsToFrontTween);
+  legFrontRotationsToFrontTween.chain(legFrontRotationsToBackTween);
+  legFrontRotationsToBackTween.start();
+  legMidRotationsToBackTween.onUpdate(legMidRotationsFunc);
+  legMidRotationsToFrontTween.onUpdate(legMidRotationsFunc);
+  legMidRotationsToFrontTween.chain(legMidRotationsToBackTween);
+  legMidRotationsToBackTween.chain(legMidRotationsToFrontTween);
+  legMidRotationsToFrontTween.start();
 }
 
 function moveOnKeyDown(keyCode){
   //const ant = scene.getObjectByName(NAMES.ANT);
   //ant.rotation.y += 0.05;
-  lower = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.LOWER);
-  middle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.MIDDLE);
-  upper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.UPPER);
+  middle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_MIDDLE.MIDDLE);
+  upper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_MIDDLE.UPPER);
   switch (keyCode){
     case KEYCODES.RIGHT_ARROW:
-      if (middle.rotation.z > -2.46){
-        middle.rotation.z -= 0.11;
-      }
-      if (upper.rotation.z > 0.6 && upper.rotation.y < 1.25){
-        upper.rotation.y += 0.08;
-      }
-      if (upper.rotation.z < 0.91){
-        upper.rotation.z += 0.06;
-      }
+      
       break;
     case KEYCODES.LEFT_ARROW:
-      if (middle.rotation.z < -1.09){
-        middle.rotation.z += 0.05;
-      }
-      if (upper.rotation.y > 0.23){
-        upper.rotation.y -= 0.07;
-      }
-      if (upper.rotation.z > 0.15){
-        upper.rotation.z -= 0.025;
-      }
+      
       break;
   }
   console.log("UPPER Y: " + upper.rotation.y)
