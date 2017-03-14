@@ -174,7 +174,7 @@ function initTweens(){
   legMidRotationsToFrontTween.onUpdate(legMidRotationsFunc);
   legMidRotationsToFrontTween.chain(legMidRotationsToBackTween);
   legMidRotationsToBackTween.chain(legMidRotationsToFrontTween);
-  legMidRotationsToFrontTween.start();
+  legMidRotationsToFrontTween.start(50);
 }
 
 function moveOnKeyDown(keyCode){
