@@ -98,6 +98,14 @@ function initTweens(){
   const rightMidUpper = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_MIDDLE.UPPER);
   const rightBackMiddle = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_BACK.MIDDLE);
   const rightBackUpper = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_BACK.UPPER);
+  leftFrontMiddle.rotation.z = -2.45;
+  leftFrontMiddle.rotation.y = -0.30;
+  leftFrontUpper.rotation.z = 0.85;
+  leftFrontUpper.rotation.y = 1.25;
+  rightFrontMiddle.rotation.z = -0.25;
+  rightFrontMiddle.rotation.y = 0.15;
+  rightFrontUpper.rotation.z = 0.5;
+  rightFrontUpper.rotation.y = -0.75;
   const legFrontRotations = { 
     leftFrontMiddleZ: leftFrontMiddle.rotation.z,
     leftFrontMiddleY: leftFrontMiddle.rotation.y,
@@ -105,8 +113,8 @@ function initTweens(){
     leftFrontUpperY: leftFrontUpper.rotation.y,
     rightFrontMiddleZ: rightFrontMiddle.rotation.z,
     rightFrontMiddleY: rightFrontMiddle.rotation.y,
-    rightFrontUpperZ: rightFrontMiddle.rotation.z,
-    rightFrontUpperY: rightFrontMiddle.rotation.y,
+    rightFrontUpperZ: rightFrontUpper.rotation.z,
+    rightFrontUpperY: rightFrontUpper.rotation.y,
   };
   const legMidRotations = {
     leftMidMiddleZ: leftMidMiddle.rotation.z,
@@ -125,6 +133,16 @@ function initTweens(){
     rightBackUpperY: rightBackUpper.rotation.y,
 
   };
+  const legFrontRotationsVals = {
+    leftFrontMiddleZ: [-0.25, -1.05, -2.45],
+    leftFrontMiddleY: [-0.15, 0.00, -0.30],
+    leftFrontUpperZ: [0.5, 0.15, 0.85],
+    leftFrontUpperY: [0.75, 0.25, 1.25],
+    rightFrontMiddleZ: [-1.05, -2.45, -0.25],
+    rightFrontMiddleY: [0.00, 0.30, 0.15],
+    rightFrontUpperZ: [0.15, 0.85, 0.5],
+    rightFrontUpperY: [-0.25, -1.25, -0.75]
+  }
   const legFrontRotationsToBack = { 
     leftFrontMiddleZ: -2.46,
     leftFrontMiddleY: -0.30,
@@ -134,6 +152,18 @@ function initTweens(){
     rightFrontMiddleY: 0.00,
     rightFrontUpperZ: 0.15,
     rightFrontUpperY: -0.23,
+  };
+  const legFrontRotationsToBackStart = { 
+    rightFrontMiddleZ: -0.25,
+    rightFrontMiddleY: 0.15,
+    rightFrontUpperZ: 0.5,
+    rightFrontUpperY: -0.75,
+  };
+  const legFrontRotationsToFrontStart = {
+    leftFrontMiddleZ: -0.25,
+    leftFrontMiddleY: -0.15,
+    leftFrontUpperZ: 0.5,
+    leftFrontUpperY: 0.75,
   };
   const legFrontRotationsToFront = {
     leftFrontMiddleZ: -1.09,
@@ -147,17 +177,21 @@ function initTweens(){
   };
   const legMidRotationsToBack = {
     leftMidMiddleZ: -1.6,
+    //leftMidMiddleY:
     leftMidUpperZ: 0.45,
     leftMidUpperY: 1.92,
     rightMidMiddleZ: -1.6,
+    //rightMidMiddleY:
     rightMidUpperZ: 0.45,
     rightMidUpperY: -0.96,
   };
   const legMidRotationsToFront = {
     leftMidMiddleZ: -1.6,
+    //leftMidMiddleY:
     leftMidUpperZ: 0.45,
     leftMidUpperY: 0.96,
     rightMidMiddleZ: -1.6,
+    //rightMidMiddleY:
     rightMidUpperZ: 0.45,
     rightMidUpperY: -1.92,
   };
@@ -178,13 +212,18 @@ function initTweens(){
     rightBackUpperZ: 0.2,
     rightBackUpperY: -2.5,
   };
-  const legSpeed = 500;
+  const _legSpeed = 1000;
+  const legStartSpeed = 150;
+  const legSpeed = 100;
+  const legFrontRotationsTween = new TWEEN.Tween(legFrontRotations).to(legFrontRotationsVals, 1000);
+  const legFrontRotationsToBackStartTween = new TWEEN.Tween(legFrontRotations).to(legFrontRotationsToBackStart, legStartSpeed);
   const legFrontRotationsToBackTween = new TWEEN.Tween(legFrontRotations).to(legFrontRotationsToBack, legSpeed);
+  const legFrontRotationsToFrontStartTween = new TWEEN.Tween(legFrontRotations).to(legFrontRotationsToFrontStart, legStartSpeed);
   const legFrontRotationsToFrontTween = new TWEEN.Tween(legFrontRotations).to(legFrontRotationsToFront, legSpeed);
-  const legMidRotationsToBackTween = new TWEEN.Tween(legMidRotations).to(legMidRotationsToBack, legSpeed);
-  const legMidRotationsToFrontTween = new TWEEN.Tween(legMidRotations).to(legMidRotationsToFront, legSpeed);
-  const legBackRotationsToBackTween = new TWEEN.Tween(legBackRotations).to(legBackRotationsToBack, legSpeed);
-  const legBackRotationsToFrontTween = new TWEEN.Tween(legBackRotations).to(legBackRotationsToFront, legSpeed);
+  const legMidRotationsToBackTween = new TWEEN.Tween(legMidRotations).to(legMidRotationsToBack, _legSpeed);
+  const legMidRotationsToFrontTween = new TWEEN.Tween(legMidRotations).to(legMidRotationsToFront, _legSpeed);
+  const legBackRotationsToBackTween = new TWEEN.Tween(legBackRotations).to(legBackRotationsToBack, _legSpeed);
+  const legBackRotationsToFrontTween = new TWEEN.Tween(legBackRotations).to(legBackRotationsToFront, _legSpeed);
  
   const legFrontRotationsFunc = () => {
     leftFrontMiddle.rotation.z = legFrontRotations.leftFrontMiddleZ;
@@ -212,12 +251,20 @@ function initTweens(){
     rightBackUpper.rotation.z = legBackRotations.rightBackUpperZ;
     rightBackUpper.rotation.y = legBackRotations.rightBackUpperY;
   }
+  /*
   legFrontRotationsToBackTween.onUpdate(legFrontRotationsFunc);
+  legFrontRotationsToBackStartTween.onUpdate(legFrontRotationsFunc);
   legFrontRotationsToFrontTween.onUpdate(legFrontRotationsFunc);
-  legFrontRotationsToBackTween.chain(legFrontRotationsToFrontTween);
-  legFrontRotationsToFrontTween.chain(legFrontRotationsToBackTween);
-  //legFrontRotationsToFrontTween.interpolation(TWEEN.Interpolation.CatmullRom);
-  legFrontRotationsToBackTween.start();
+  legFrontRotationsToFrontStartTween.onUpdate(legFrontRotationsFunc);
+  legFrontRotationsToBackStartTween.chain(legFrontRotationsToBackTween);
+  legFrontRotationsToBackTween.chain(legFrontRotationsToFrontStartTween);
+  legFrontRotationsToFrontStartTween.chain(legFrontRotationsToFrontTween);
+  legFrontRotationsToFrontTween.chain(legFrontRotationsToBackStartTween);
+  legFrontRotationsToBackStartTween.start();
+  */
+  legFrontRotationsTween.onUpdate(legFrontRotationsFunc);
+  legFrontRotationsTween.repeat(Infinity);
+  legFrontRotationsTween.start();
   legMidRotationsToBackTween.onUpdate(legMidRotationsFunc);
   legMidRotationsToFrontTween.onUpdate(legMidRotationsFunc);
   legMidRotationsToFrontTween.chain(legMidRotationsToBackTween);
