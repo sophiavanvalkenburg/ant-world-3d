@@ -112,11 +112,11 @@ function initTweens(){
     leftFrontMiddleZ: [-0.75, -1.05, -2.45],
     leftFrontMiddleY: [-0.15, 0.00, -0.30],
     leftFrontUpperZ: [0.5, 0.15, 0.85],
-    leftFrontUpperY: [0.75, 0.25, 1.25],
+    leftFrontUpperY: [0.75, 0.75, 1.25],
     rightFrontMiddleZ: [-1.05, -2.45, -0.75],
     rightFrontMiddleY: [0.00, 0.30, 0.15],
     rightFrontUpperZ: [0.15, 0.85, 0.5],
-    rightFrontUpperY: [-0.25, -1.25, -0.75]
+    rightFrontUpperY: [-0.75, -1.25, -0.75]
   };
   const legMidRotationsInit = {
     leftMidMiddleZ: -1.5,
@@ -132,30 +132,32 @@ function initTweens(){
     leftMidMiddleZ: [-2.25, -1.0, -1.5],
     leftMidMiddleY: [0.30, 0.00, -0.30],
     leftMidUpperZ: [0.75, 0.60, 0.45],
-    leftMidUpperY: [1.95, 1.45, 0.95],
+    leftMidUpperY: [1.95, 0.95, 0.95],
     rightMidMiddleZ: [-1.0, -1.5, -2.25],
     rightMidMiddleY: [-0.30, 0.00, 0.30],
     rightMidUpperZ: [0.60, 0.45, 0.75],
-    rightMidUpperY: [-1.45, -0.95, -1.95]
+    rightMidUpperY: [-0.95, -0.95, -1.95]
   };
   const legBackRotationsInit = {
-    leftBackMiddleZ: -1.75,
-    leftBackUpperZ: 0.55,
-    leftBackUpperY: 1.8,
-    rightBackMiddleZ: -1.15,
-    rightBackUpperZ: 0.2,
-    rightBackUpperY: -2.5
+    leftBackMiddleZ: -0.80,
+    leftBackMiddleY: 0.30,
+    leftBackUpperZ: 0.00,
+    leftBackUpperY: 2.5,
+    rightBackMiddleZ: -1.0,
+    rightBackMiddleY: -0.30,
+    rightBackUpperZ: 0.55,
+    rightBackUpperY: -1.5
 
   };
   const legBackRotations = {
-    leftBackMiddleZ: [-1.15, -1.75],
-    //leftBackMiddleY: [-0.15, 0.00, -0.30],
-    leftBackUpperZ: [0.2, 0.55],
-    leftBackUpperY: [2.5, 1.8],
-    rightBackMiddleZ: [-1.75, -1.15],
-    //rightBackMiddleY: [0.00, 0.30, 0.15],
-    rightBackUpperZ: [0.55, 0.2],
-    rightBackUpperY: [-1.8, -2.5]
+    leftBackMiddleZ: [-1.0, -1.45, -0.80],
+    leftBackMiddleY: [-0.30, 0.00, 0.30],
+    leftBackUpperZ: [0.55, 0.40, 0.00],
+    leftBackUpperY: [1.5, 1.5, 2.5],
+    rightBackMiddleZ: [-1.45, -0.80, -1.0],
+    rightBackMiddleY: [0.00, 0.30, -0.30],
+    rightBackUpperZ: [0.40, 0.00, 0.55],
+    rightBackUpperY: [-1.5, -2.5, -1.5],
   };
   const legSpeed = 1000;
   const legFrontRotationsTween = new TWEEN.Tween(legFrontRotationsInit).to(legFrontRotations, legSpeed);
@@ -184,9 +186,11 @@ function initTweens(){
   }
   const legBackRotationsFunc = () => {
     leftBackMiddle.rotation.z = legBackRotationsInit.leftBackMiddleZ;
+    leftBackMiddle.rotation.y = legBackRotationsInit.leftBackMiddleY;
     leftBackUpper.rotation.z = legBackRotationsInit.leftBackUpperZ;
     leftBackUpper.rotation.y = legBackRotationsInit.leftBackUpperY;
     rightBackMiddle.rotation.z = legBackRotationsInit.rightBackMiddleZ;
+    rightBackMiddle.rotation.y = legBackRotationsInit.rightBackMiddleY;
     rightBackUpper.rotation.z = legBackRotationsInit.rightBackUpperZ;
     rightBackUpper.rotation.y = legBackRotationsInit.rightBackUpperY;
   }
@@ -198,7 +202,7 @@ function initTweens(){
   legMidRotationsTween.start();
   legBackRotationsTween.onUpdate(legBackRotationsFunc);
   legBackRotationsTween.repeat(Infinity);
-  //legBackRotationsTween.start();
+  legBackRotationsTween.start();
 
 }
 
