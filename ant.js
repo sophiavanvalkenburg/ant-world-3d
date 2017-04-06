@@ -79,6 +79,7 @@ function createAntHead(antData){
     headGroup.add(head);
     headGroup.add(antennaLeft);
     headGroup.add(antennaRight);
+    headGroup.name = NAMES.ANT_HEAD;
     return headGroup
 }
 
@@ -118,6 +119,7 @@ function createAntBack(antData){
     back.scale.set(1.25, 0.9, 1);
     backGroup.add(back);
     backGroup.add(backJoint);
+    backGroup.name = NAMES.ANT_BACK;
     return backGroup;
 }
 

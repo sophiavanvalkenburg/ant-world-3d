@@ -86,6 +86,9 @@ function renderLoop(){
 }
 
 function initTweens(){
+  const ant = scene.getObjectByName(NAMES.ANT);
+  const antHead = scene.getObjectByName(NAMES.ANT_HEAD);
+  const antBack = scene.getObjectByName(NAMES.ANT_BACK);
   const leftFrontMiddle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.MIDDLE);
   const leftFrontUpper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.UPPER);
   const leftMidMiddle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_MIDDLE.MIDDLE);
@@ -159,10 +162,28 @@ function initTweens(){
     rightBackUpperZ: [0.40, 0.00, 0.55],
     rightBackUpperY: [-1.5, -2.5, -1.5],
   };
-  const legSpeed = 1000;
-  const legFrontRotationsTween = new TWEEN.Tween(legFrontRotationsInit).to(legFrontRotations, legSpeed);
-  const legMidRotationsTween = new TWEEN.Tween(legMidRotationsInit).to(legMidRotations, legSpeed);
-  const legBackRotationsTween = new TWEEN.Tween(legBackRotationsInit).to(legBackRotations, legSpeed);
+  const antHalfStepMovementsInit = {
+    yPosition: ant.position.y,
+    backZRotation: antBack.rotation.z,
+    headZRotation: antHead.rotation.z - 0.1
+  }
+  antWholeStepMovementsInit = {
+    headYRotation: antHead.rotation.y,
+  }
+  const antHalfStepMovements = {
+    yPosition: [ant.position.y + 1, ant.position.y, ant.position.y - 1, ant.position.y],
+    backZRotation: [antBack.rotation.z - 0.2, antBack.rotation.z],
+    headZRotation: [antHead.rotation.z, antHead.rotation.z - 0.1]
+  }
+  const antWholeStepMovements = {
+    headYRotation: [antHead.rotation.y - 0.15, antHead.rotation.y, antHead.rotation.y + 0.15, antHead.rotation.y],
+  }
+  const stepSpeed = 750;
+  const legFrontRotationsTween = new TWEEN.Tween(legFrontRotationsInit).to(legFrontRotations, stepSpeed);
+  const legMidRotationsTween = new TWEEN.Tween(legMidRotationsInit).to(legMidRotations, stepSpeed);
+  const legBackRotationsTween = new TWEEN.Tween(legBackRotationsInit).to(legBackRotations, stepSpeed);
+  const antHalfStepMovementsTween = new TWEEN.Tween(antHalfStepMovementsInit).to(antHalfStepMovements, stepSpeed/2);
+  const antWholeStepMovementsTween = new TWEEN.Tween(antWholeStepMovementsInit).to(antWholeStepMovements, stepSpeed);
 
   const legFrontRotationsFunc = () => {
     leftFrontMiddle.rotation.z = legFrontRotationsInit.leftFrontMiddleZ;
@@ -194,6 +215,14 @@ function initTweens(){
     rightBackUpper.rotation.z = legBackRotationsInit.rightBackUpperZ;
     rightBackUpper.rotation.y = legBackRotationsInit.rightBackUpperY;
   }
+  const antHalfStepMovementsFunc = () => {
+    ant.position.y = antHalfStepMovementsInit.yPosition;
+    antBack.rotation.z = antHalfStepMovementsInit.backZRotation;
+    antHead.rotation.z = antHalfStepMovementsInit.headZRotation;
+  }
+  const antWholeStepMovementsFunc = () => {
+    antHead.rotation.y = antWholeStepMovementsInit.headYRotation;
+  }
   legFrontRotationsTween.onUpdate(legFrontRotationsFunc);
   legFrontRotationsTween.repeat(Infinity);
   legFrontRotationsTween.start();
@@ -203,7 +232,12 @@ function initTweens(){
   legBackRotationsTween.onUpdate(legBackRotationsFunc);
   legBackRotationsTween.repeat(Infinity);
   legBackRotationsTween.start();
-
+  antHalfStepMovementsTween.onUpdate(antHalfStepMovementsFunc);
+  antHalfStepMovementsTween.repeat(Infinity);
+  antHalfStepMovementsTween.start();
+  antWholeStepMovementsTween.onUpdate(antWholeStepMovementsFunc);
+  antWholeStepMovementsTween.repeat(Infinity);
+  antWholeStepMovementsTween.start();
 }
 
 function moveOnKeyDown(keyCode){
