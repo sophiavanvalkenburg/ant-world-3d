@@ -45,7 +45,7 @@ function createLeg(antData, legData, name){
     return leg;
 }
 
-function createAntenna(antData, antennaData){
+function createAntenna(antData, antennaData, name){
     const antenna = new THREE.Group();
     const segment1 = createLegSegment(1, 0.5, 40, antData);
     const segment2 = createLegSegment(0.5, 0.5, 30, antData);
@@ -62,6 +62,10 @@ function createAntenna(antData, antennaData){
       );
     antenna.add(segment1);
     antenna.add(segment2);
+    if (name !== undefined){
+      antenna.name = name.UPPER;
+      segment2.name = name.LOWER;
+    }
     return antenna;
 }
 
@@ -71,9 +75,9 @@ function createAntHead(antData){
     const head = createSphere(14, antData.color); 
     head.position.set(14, 5, 0)
     head.scale.set(1.15, 0.6, 0.9);
-    const antennaLeft = createAntenna(antData, antData.antennaLeft); 
+    const antennaLeft = createAntenna(antData, antData.antennaLeft, NAMES.ANT_ANTENNA_LEFT); 
     antennaLeft.position.set(5, 10, -5);
-    const antennaRight = createAntenna(antData, antData.antennaRight); 
+    const antennaRight = createAntenna(antData, antData.antennaRight, NAMES.ANT_ANTENNA_RIGHT); 
     antennaRight.position.set(5, 10, 5);
     headGroup.add(headJoint);
     headGroup.add(head);

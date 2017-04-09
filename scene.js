@@ -89,6 +89,10 @@ function initTweens(){
   const ant = scene.getObjectByName(NAMES.ANT);
   const antHead = scene.getObjectByName(NAMES.ANT_HEAD);
   const antBack = scene.getObjectByName(NAMES.ANT_BACK);
+  const antennaLeft = scene.getObjectByName(NAMES.ANT_ANTENNA_LEFT.UPPER);
+  const antennaLeftLower = scene.getObjectByName(NAMES.ANT_ANTENNA_LEFT.LOWER);
+  const antennaRight = scene.getObjectByName(NAMES.ANT_ANTENNA_RIGHT.UPPER);
+  const antennaRightLower = scene.getObjectByName(NAMES.ANT_ANTENNA_RIGHT.LOWER);
   const leftFrontLower = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.LOWER);
   const leftFrontMiddle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.MIDDLE);
   const leftFrontUpper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.UPPER);
@@ -186,18 +190,30 @@ function initTweens(){
   const antHalfStepMovementsInit = {
     yPosition: ant.position.y,
     backZRotation: antBack.rotation.z,
-    headZRotation: antHead.rotation.z - 0.1
+    headZRotation: antHead.rotation.z - 0.1,
   }
   const antWholeStepMovementsInit = {
     headYRotation: antHead.rotation.y,
+    antennaLeftYRotation: antennaLeft.rotation.y,
+    antennaLeftZRotation: antennaLeft.rotation.z,
+    antennaLeftLowerZRotation: antennaLeftLower.rotation.z,
+    antennaRightYRotation: antennaRight.rotation.y,
+    antennaRightZRotation: antennaRight.rotation.z,
+    antennaRightLowerZRotation: antennaRightLower.rotation.z,
   }
   const antHalfStepMovements = {
     yPosition: [ant.position.y + 1, ant.position.y, ant.position.y - 1, ant.position.y],
     backZRotation: [antBack.rotation.z - 0.2, antBack.rotation.z],
-    headZRotation: [antHead.rotation.z, antHead.rotation.z - 0.1]
+    headZRotation: [antHead.rotation.z, antHead.rotation.z - 0.1],
   }
   const antWholeStepMovements = {
     headYRotation: [antHead.rotation.y - 0.15, antHead.rotation.y, antHead.rotation.y + 0.15, antHead.rotation.y],
+    antennaLeftYRotation: [antennaLeft.rotation.y + 1.0, antennaLeft.rotation.y],
+    antennaLeftZRotation: [antennaLeft.rotation.z - 0.25, antennaLeft.rotation.z],
+    antennaLeftLowerZRotation: [antennaLeftLower.rotation.z + 1.0, antennaLeftLower.rotation.z],
+    antennaRightYRotation: [antennaRight.rotation.y - 1.0, antennaRight.rotation.y],
+    antennaRightZRotation: [antennaRight.rotation.z - 0.25, antennaRight.rotation.z],
+    antennaRightLowerZRotation: [antennaRightLower.rotation.z + 1.0, antennaRightLower.rotation.z],
   }
   const stepSpeed = 750;
   const legRotationsTween = new TWEEN.Tween(legRotationsInit).to(legRotations, stepSpeed);
@@ -249,6 +265,12 @@ function initTweens(){
   }
   const antWholeStepMovementsFunc = () => {
     antHead.rotation.y = antWholeStepMovementsInit.headYRotation;
+    antennaLeft.rotation.y = antWholeStepMovementsInit.antennaLeftYRotation;
+    antennaLeft.rotation.z = antWholeStepMovementsInit.antennaLeftZRotation;
+    antennaLeftLower.rotation.z = antWholeStepMovementsInit.antennaLeftLowerZRotation;
+    antennaRight.rotation.y = antWholeStepMovementsInit.antennaRightYRotation;
+    antennaRight.rotation.z = antWholeStepMovementsInit.antennaRightZRotation;
+    antennaRightLower.rotation.z = antWholeStepMovementsInit.antennaRightLowerZRotation;
   }
   legRotationsTween.onUpdate(legRotationsFunc);
   legRotationsTween.repeat(Infinity);

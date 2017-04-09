@@ -3,6 +3,14 @@ const NAMES = {
   ANT_HEAD: "ant_head",
   ANT_BODY: "ant_body",
   ANT_BACK: "ant_back",
+  ANT_ANTENNA_LEFT: {
+    UPPER: "ant_antenna_left_upper",
+    LOWER: "ant_antenna_left_lower"
+  },
+  ANT_ANTENNA_RIGHT: {
+    UPPER: "ant_antenna_right_upper",
+    LOWER: "ant_antenna_right_lower"
+  },
   ANT_LEG_LEFT_FRONT: {
     UPPER: "ant_leg_left_front_upper",
     MIDDLE: "ant_leg_left_front_middle",
