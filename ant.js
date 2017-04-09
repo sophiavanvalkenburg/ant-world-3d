@@ -79,8 +79,18 @@ function createAntHead(antData){
     antennaLeft.position.set(5, 10, -5);
     const antennaRight = createAntenna(antData, antData.antennaRight, NAMES.ANT_ANTENNA_RIGHT); 
     antennaRight.position.set(5, 10, 5);
+    const eyeLeft = createSphere(3, antData.color);
+    eyeLeft.position.set(15, 10, -8);
+    eyeLeft.scale.set(1.5, 0.75, 1);
+    eyeLeft.rotation.set(aToR(-45), 0, 0);
+    const eyeRight = createSphere(3, antData.color);
+    eyeRight.position.set(15, 10, 8);
+    eyeRight.scale.set(1.5, 0.75, 1);
+    eyeRight.rotation.set(aToR(45), 0, 0);
     headGroup.add(headJoint);
     headGroup.add(head);
+    headGroup.add(eyeLeft);
+    headGroup.add(eyeRight);
     headGroup.add(antennaLeft);
     headGroup.add(antennaRight);
     headGroup.name = NAMES.ANT_HEAD;

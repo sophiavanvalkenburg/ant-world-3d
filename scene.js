@@ -284,10 +284,6 @@ function initTweens(){
 }
 
 function moveOnKeyDown(keyCode){
-  //const ant = scene.getObjectByName(NAMES.ANT);
-  //ant.rotation.y += 0.05;
-  middle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_MIDDLE.MIDDLE);
-  upper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_MIDDLE.UPPER);
   switch (keyCode){
     case KEYCODES.RIGHT_ARROW:
       
@@ -296,8 +292,5 @@ function moveOnKeyDown(keyCode){
       
       break;
   }
-  console.log("UPPER Y: " + upper.rotation.y)
-  console.log("UPPER Z: " + upper.rotation.z)
-  console.log("MIDDLE Z: " + middle.rotation.z)
  }
 
