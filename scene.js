@@ -89,45 +89,57 @@ function initTweens(){
   const ant = scene.getObjectByName(NAMES.ANT);
   const antHead = scene.getObjectByName(NAMES.ANT_HEAD);
   const antBack = scene.getObjectByName(NAMES.ANT_BACK);
+  const leftFrontLower = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.LOWER);
   const leftFrontMiddle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.MIDDLE);
   const leftFrontUpper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_FRONT.UPPER);
+  const leftMidLower = scene.getObjectByName(NAMES.ANT_LEG_LEFT_MIDDLE.LOWER);
   const leftMidMiddle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_MIDDLE.MIDDLE);
   const leftMidUpper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_MIDDLE.UPPER);
+  const leftBackLower = scene.getObjectByName(NAMES.ANT_LEG_LEFT_BACK.LOWER);
   const leftBackMiddle = scene.getObjectByName(NAMES.ANT_LEG_LEFT_BACK.MIDDLE);
   const leftBackUpper = scene.getObjectByName(NAMES.ANT_LEG_LEFT_BACK.UPPER);
+  const rightFrontLower = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_FRONT.LOWER);
   const rightFrontMiddle = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_FRONT.MIDDLE);
   const rightFrontUpper = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_FRONT.UPPER);
+  const rightMidLower = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_MIDDLE.LOWER);
   const rightMidMiddle = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_MIDDLE.MIDDLE);
   const rightMidUpper = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_MIDDLE.UPPER);
+  const rightBackLower = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_BACK.LOWER);
   const rightBackMiddle = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_BACK.MIDDLE);
   const rightBackUpper = scene.getObjectByName(NAMES.ANT_LEG_RIGHT_BACK.UPPER);
   const legRotationsInit = {
     // left front
+    leftFrontLowerZ: 1.25,
     leftFrontMiddleZ: -2.45,
     leftFrontMiddleY: -0.30,
     leftFrontUpperZ: 0.85,
     leftFrontUpperY: 1.25,
     // right front
+    rightFrontLowerZ: 0.25,
     rightFrontMiddleZ: -0.75,
     rightFrontMiddleY: 0.15,
     rightFrontUpperZ: 0.5,
     rightFrontUpperY: -0.75,
     // left middle
+    leftMidLowerZ: 0.5,
     leftMidMiddleZ: -1.5,
     leftMidMiddleY: -0.30,
     leftMidUpperZ: 0.45,
     leftMidUpperY: 0.95,
     // right middle
+    rightMidLowerZ: 1.0,
     rightMidMiddleZ: -2.25,
     rightMidMiddleY: 0.30,
     rightMidUpperZ: 0.75,
     rightMidUpperY: -1.95,
     // left back
+    leftBackLowerZ: 0.5,
     leftBackMiddleZ: -0.80,
     leftBackMiddleY: 0.30,
     leftBackUpperZ: 0.00,
     leftBackUpperY: 2.5,
     // right back
+    rightBackLowerZ: 0.25,
     rightBackMiddleZ: -1.0,
     rightBackMiddleY: -0.30,
     rightBackUpperZ: 0.55,
@@ -135,36 +147,41 @@ function initTweens(){
   }
   const legRotations = {
     // left front
+    leftFrontLowerZ: [0.25, 0.5, 1.25],
     leftFrontMiddleZ: [-0.75, -1.05, -2.45],
     leftFrontMiddleY: [-0.15, 0.00, -0.30],
     leftFrontUpperZ: [0.5, 0.15, 0.85],
     leftFrontUpperY: [0.75, 0.75, 1.25],
     // right front
+    rightFrontLowerZ: [0.5, 1.25, 0.25],
     rightFrontMiddleZ: [-1.05, -2.45, -0.75],
     rightFrontMiddleY: [0.00, 0.30, 0.15],
     rightFrontUpperZ: [0.15, 0.85, 0.5],
     rightFrontUpperY: [-0.75, -1.25, -0.75],
     // left middle
+    leftMidLowerZ: [1.0, 0.25, 0.5],
     leftMidMiddleZ: [-2.25, -1.0, -1.5],
     leftMidMiddleY: [0.30, 0.00, -0.30],
     leftMidUpperZ: [0.75, 0.60, 0.45],
     leftMidUpperY: [1.95, 0.95, 0.95],
     // right middle
+    rightMidLowerZ: [0.25, 0.5, 1.0],
     rightMidMiddleZ: [-1.0, -1.5, -2.25],
     rightMidMiddleY: [-0.30, 0.00, 0.30],
     rightMidUpperZ: [0.60, 0.45, 0.75],
     rightMidUpperY: [-0.95, -0.95, -1.95],
     // left back
+    leftBackLowerZ: [0.25, 0.25, 0.5],
     leftBackMiddleZ: [-1.0, -1.45, -0.80],
     leftBackMiddleY: [-0.30, 0.00, 0.30],
     leftBackUpperZ: [0.55, 0.40, 0.00],
     leftBackUpperY: [1.5, 1.5, 2.5],
     // right back
+    rightBackLowerZ: [0.25, 0.5, 0.25],
     rightBackMiddleZ: [-1.45, -0.80, -1.0],
     rightBackMiddleY: [0.00, 0.30, -0.30],
     rightBackUpperZ: [0.40, 0.00, 0.55],
     rightBackUpperY: [-1.5, -2.5, -1.5],
-
   };
   const antHalfStepMovementsInit = {
     yPosition: ant.position.y,
@@ -189,31 +206,37 @@ function initTweens(){
 
   const legRotationsFunc = () => {
     // left front
+    leftFrontLower.rotation.z = legRotationsInit.leftFrontLowerZ;
     leftFrontMiddle.rotation.z = legRotationsInit.leftFrontMiddleZ;
     leftFrontMiddle.rotation.y = legRotationsInit.leftFrontMiddleY;
     leftFrontUpper.rotation.z = legRotationsInit.leftFrontUpperZ;
     leftFrontUpper.rotation.y = legRotationsInit.leftFrontUpperY;
     // right front
+    rightFrontLower.rotation.z = legRotationsInit.rightFrontLowerZ;
     rightFrontMiddle.rotation.z = legRotationsInit.rightFrontMiddleZ;
     rightFrontMiddle.rotation.y = legRotationsInit.rightFrontMiddleY;
     rightFrontUpper.rotation.z = legRotationsInit.rightFrontUpperZ;
     rightFrontUpper.rotation.y = legRotationsInit.rightFrontUpperY;
     // left middle
+    leftMidLower.rotation.z = legRotationsInit.leftMidLowerZ;
     leftMidMiddle.rotation.z = legRotationsInit.leftMidMiddleZ;
     leftMidMiddle.rotation.y = legRotationsInit.leftMidMiddleY;
     leftMidUpper.rotation.z = legRotationsInit.leftMidUpperZ;
     leftMidUpper.rotation.y = legRotationsInit.leftMidUpperY;
     // right middle
+    rightMidLower.rotation.z = legRotationsInit.rightMidLowerZ;
     rightMidMiddle.rotation.z = legRotationsInit.rightMidMiddleZ;
     rightMidMiddle.rotation.y = legRotationsInit.rightMidMiddleY;
     rightMidUpper.rotation.z = legRotationsInit.rightMidUpperZ;
     rightMidUpper.rotation.y = legRotationsInit.rightMidUpperY;
     // left back
+    leftBackLower.rotation.z = legRotationsInit.leftBackLowerZ;
     leftBackMiddle.rotation.z = legRotationsInit.leftBackMiddleZ;
     leftBackMiddle.rotation.y = legRotationsInit.leftBackMiddleY;
     leftBackUpper.rotation.z = legRotationsInit.leftBackUpperZ;
     leftBackUpper.rotation.y = legRotationsInit.leftBackUpperY;
     // right back
+    rightBackLower.rotation.z = legRotationsInit.rightBackLowerZ;
     rightBackMiddle.rotation.z = legRotationsInit.rightBackMiddleZ;
     rightBackMiddle.rotation.y = legRotationsInit.rightBackMiddleY;
     rightBackUpper.rotation.z = legRotationsInit.rightBackUpperZ;
