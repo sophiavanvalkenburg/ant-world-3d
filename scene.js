@@ -11,8 +11,8 @@ renderLoop();
 
 function init(){
     // set the scene size
-    const WIDTH = window.innerWidth;
-    const HEIGHT = window.innerHeight;
+    const WIDTH = 640;
+    const HEIGHT = 480;
     // set some camera attributes
     const VIEW_ANGLE = 45;
     const ASPECT = WIDTH / HEIGHT;
@@ -79,8 +79,14 @@ function createLight(){
     return [lightA, light]
 }
 
+var paused = false;
+function pauseAnimation() {
+  paused = !paused;
+
+}
+
 function renderLoop(){
-  TWEEN.update();
+  if (!paused) TWEEN.update();
   renderer.render(scene, camera);
   requestAnimationFrame(renderLoop);
 }
